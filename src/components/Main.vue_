@@ -1,0 +1,136 @@
+<template>
+  <div class="App">
+    <div class="input-div" @drop="handleDrop">
+      <p>여기로 이미지를 드래그하거나 <strong>클릭</strong>하세요.</p>
+      <input type="file" class="file" @change="handleChange" accept="image/jpeg, image/png, image/jpg"/>
+    </div>
+
+    <div class="output-div">
+      <div class="canvas" id="canvas">
+        <!-- 기존 업로드한 이미지 -->
+        <!-- <img :src="imagePath" alt="uploadImg"/> -->
+        <!-- crop 기능이 들어간 업로드한 이미지 -->
+        <vue-cropper
+          ref="cropper"
+          :src="imagePath"
+          @crop="onCrop"
+        ></vue-cropper>
+        <!-- crop 후 이미지 -->
+        <!-- <img :src="croppedImage" alt="cropped"/> -->
+      </div>
+    </div>
+
+    <button class="crop-Btn" @click="handleCrop">Crop!</button>
+  </div>
+</template>
+
+<script>
+import { ref } from 'vue';
+import VueCropper from 'vue-cropperjs';
+
+export default {
+  components: {
+    VueCropper,
+  },
+  setup() {
+    const imagePath = ref('');
+    const cropper = ref(null);
+    const croppedImage = ref(null);
+
+    const handleChange = (e) => {
+      const tempImagePath = URL.createObjectURL(e.target.files[0]);
+      imagePath.value = tempImagePath;
+      showImage();
+    };
+
+    const handleDrop = (e) => {
+      e.preventDefault();
+      const tempImagePath = URL.createObjectURL(e.dataTransfer.files[0]);
+      imagePath.value = tempImagePath;
+      showImage();
+    };
+
+    const handleCrop = () => {
+      imagePath.value = croppedImage.value;
+    };
+
+    const showImage = () => {
+      document.querySelector('.input-div').style.display = 'none';
+      document.querySelector('.output-div').style.display = 'flex';
+      document.querySelector('.crop-Btn').style.display = 'block';
+    };
+
+    const onCrop = (event) => {
+      croppedImage.value = event.detail.base64;
+    };
+
+    return {
+      imagePath,
+      cropper,
+      croppedImage,
+      handleChange,
+      handleDrop,
+      handleCrop,
+      onCrop,
+    };
+  },
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  .input-div {
+    width: 100%;
+    height: 200px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border: 2px dotted black;
+    background-color: white;
+    position: relative;
+  }
+
+  .file {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .output-div {
+    width: 100%;
+    min-height: 150px;
+    /* display: flex; */
+    display: none;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 15px;
+    position: relative;
+    border-radius: 5px;
+  }
+
+  .output-div .image {
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .output-div .image img {
+    height: 100%;
+    width: 100%;
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+  }
+
+  .crop-Btn{
+    height: 50px;
+    width: 100px;
+    display: none;
+  }
+</style>
