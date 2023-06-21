@@ -21,7 +21,7 @@
           <a href="#" role="button" @click.prevent="cropImage">Crop</a>
         </div>
 
-        <textarea v-model="data" />
+        <textarea v-model="result" />
       </section>
 
       <section class="preview-area">
@@ -38,6 +38,7 @@
 import { ref } from 'vue';
 import VueCropper from 'vue-cropperjs';
 import 'cropperjs/dist/cropper.css';
+import Tesseract from 'tesseract.js';
 
 export default {
   components: {
@@ -48,7 +49,8 @@ export default {
     const cropperRef = ref(null);
     const uploadedImage = ref('');
     const croppedImage = ref('');
-    const data = ref('');
+    const result = ref('');
+    // const log = ref({status: 'default', progress: 0});
 
     const handleChange = (e) => {
       const file = e.target.files[0];
@@ -87,8 +89,28 @@ export default {
 
     const cropImage = () => {
       croppedImage.value = cropperRef.value.cropper.getCroppedCanvas().toDataURL();
-      data.value = '인식된 이미지 데이터';
+      recognizeTesseract();
     };
+
+    const recognizeTesseract = () => {
+      fetch(croppedImage.value)
+      .then(response => response.blob())
+      .then(blob => {
+        const blobURL = URL.createObjectURL(blob);
+
+        Tesseract.recognize(
+          blobURL, 
+          'eng+kor', 
+          { logger: m => 
+            console.log(m) 
+          }
+        ).catch (err => {
+          console.error(err);
+        }).then(({ data: { text } }) => { 
+          console.log(text); 
+        })
+      });
+    }
 
     const reset = () => {
       // cropperRef.value.cropper.reset();
@@ -104,7 +126,7 @@ export default {
       cropperRef, 
       uploadedImage, 
       croppedImage, 
-      data, 
+      result, 
       handleChange, 
       handleDrop, 
       cropImage, 
