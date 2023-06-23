@@ -1,13 +1,12 @@
 <template>
   <div>
     <div class="header">
-      <h2>디아블로4 사설경매장 - 으뜸</h2>
+      <h2>디아블로4 사설경매장</h2>
       <a href="https://github.com/cchoseonghun">Github</a>
     </div>
-    <hr />
     
     <div class="content">
-      <section class="cropper-area">
+      <div class="cropper-area">
         <div class="input-div" @drop="handleDrop">
           <p>여기로 이미지를 드래그하거나 <strong>클릭</strong>하세요.</p>
           <input ref="inputRef" type="file" class="file" @change="handleChange" accept="image/*"/>
@@ -17,19 +16,29 @@
           <vue-cropper ref="cropperRef" :src="uploadedImage"/>
         </div>
         <div class="actions">
-          <a href="#" role="button" @click.prevent="reset">Reset</a>
-          <a href="#" role="button" @click.prevent="cropImage">Crop</a>
+          <button @click.prevent="reset">Reset</button>
+          <button @click.prevent="cropImage">Crop</button>
         </div>
+      </div>
+  
+      <div class="user-area">
+        <section class="preview-area">
+          <h3>인식된 사진</h3>
+          <div class="cropped-image">
+            <img v-if="croppedImage" :src="croppedImage" alt="Cropped Image"/>
+          </div>
+        </section>
 
-        <textarea v-model="result" />
-      </section>
-
-      <section class="preview-area">
-        <p>인식된 사진</p>
-        <div class="cropped-image">
-          <img v-if="croppedImage" :src="croppedImage" alt="Cropped Image"/>
-        </div>
-      </section>
+        <section class="input-area">
+          <h3>부위</h3>
+          <div class="radio-buttons">
+            <label><input type="radio" name="type" value="weapon" checked>무기</label>
+            <label><input type="radio" name="type" value="armor" checked>방어구</label>
+            <label><input type="radio" name="type" value="accesesory" checked>장신구</label>
+          </div>
+        </section>
+        
+      </div>
     </div>
   </div>
 </template>
@@ -46,10 +55,9 @@ export default {
   },
   setup() {
     const inputRef = ref(null);
-    const cropperRef = ref(null);
     const uploadedImage = ref('');
+    const cropperRef = ref(null);
     const croppedImage = ref('');
-    const result = ref('');
     // const log = ref({status: 'default', progress: 0});
 
     const handleChange = (e) => {
@@ -67,21 +75,21 @@ export default {
       }
     };
 
-    const handleDrop = (e) => {
-      e.preventDefault();
-      const file = e.dataTransfer.files[0];
-      if (typeof FileReader === 'function') {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          uploadedImage.value = event.target.result;
-          cropperRef.value.cropper.replace(event.target.result);
-        };
-        reader.readAsDataURL(file);
-        showImage();
-      } else {
-        alert('FileReader API를 지원하지 않습니다.');
-      }
+const handleDrop = (e) => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (typeof FileReader === 'function') {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      uploadedImage.value = event.target.result;
+      cropperRef.value.cropper.replace(event.target.result);
     };
+    reader.readAsDataURL(file);
+    showImage();
+  } else {
+    alert('FileReader API를 지원하지 않습니다.');
+  }
+};
 
     const showImage = () => {
       document.querySelector('.input-div').style.display = 'none';
@@ -107,7 +115,25 @@ export default {
         ).catch (err => {
           console.error(err);
         }).then(({ data: { text } }) => { 
-          console.log(text); 
+          const target = text.replace(/\s/g, '');
+          console.log(target);
+
+          if (target.includes('계정귀속')) {
+            alert('계정 귀속된 아이템은 거래할 수 없습니다.');
+            return
+          }
+          if (target.includes('마법') || target.includes('전설')) {
+            alert('희귀 아이템만 거래 가능합니다.');
+            return
+          }
+          if (target.includes('목걸이') || target.includes('반지')) {
+            document.querySelector('input[name="type"][value="accesesory"]').checked = true;
+          } else if (target.includes('투구') || target.includes('가슴방어구') || target.includes('장갑') || target.includes('바지') || target.includes('장화')) {
+            document.querySelector('input[name="type"][value="armor"]').checked = true;
+          } else {
+            document.querySelector('input[name="type"][value="weapon"]').checked = true;
+          }
+
         })
       });
     }
@@ -126,7 +152,6 @@ export default {
       cropperRef, 
       uploadedImage, 
       croppedImage, 
-      result, 
       handleChange, 
       handleDrop, 
       cropImage, 
@@ -160,48 +185,6 @@ body {
   color: black;
 }
 
-.content {
-  display: flex;
-  justify-content: space-between;
-}
-
-.cropper-area {
-  width: 614px;
-}
-
-.actions {
-  margin-top: 1rem;
-}
-
-.actions a {
-  display: inline-block;
-  padding: 5px 15px;
-  background: #0062CC;
-  color: white;
-  text-decoration: none;
-  border-radius: 3px;
-  margin-right: 1rem;
-  margin-bottom: 1rem;
-}
-
-.preview-area {
-  width: 307px;
-}
-
-.preview-area p {
-  font-size: 1.25rem;
-  margin: 0;
-  margin-bottom: 1rem;
-}
-
-.preview-area p:last-of-type {
-  margin-top: 1rem;
-}
-
-.cropped-image img {
-  max-width: 100%;
-}
-
 .input-div {
   width: 100%;
   height: 200px;
@@ -221,5 +204,35 @@ body {
   position: absolute;
   opacity: 0;
   cursor: pointer;
+}
+
+.cropper-area {
+  width: 100%;
+}
+
+.actions {
+  margin-top: 1rem;
+}
+
+.user-area {
+  display: flex;
+  justify-content: space-between;
+}
+
+.preview-area {
+  width: 40%;
+}
+
+/* .cropped-image img { */
+.preview-area div img {
+  max-width: 100%;
+}
+
+.radio-buttons {
+  display: flex;
+}
+
+.radio-buttons label {
+  margin-right: 10px;
 }
 </style>
