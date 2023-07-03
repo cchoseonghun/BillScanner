@@ -12,11 +12,39 @@ const handleChange = (e) => {
 }
 
 const setCropper = () => {
-  const cropper = new Cropper(document.querySelector("#uploaded"), {
-  });
+  const cropper = new Cropper(document.querySelector("#uploaded"), { });
+
   document.querySelector('#cropBtn').onclick = function () {
-    document.querySelector('#cropped').src = cropper.getCroppedCanvas().toDataURL()
+    const croppedCanvasDataUrl = cropper.getCroppedCanvas().toDataURL();
+    document.querySelector('#cropped').src = croppedCanvasDataUrl;
+    detectText(croppedCanvasDataUrl);
   };
+}
+
+const detectText = (dataUrl) => {
+  fetch(dataUrl)
+  .then(response => response.blob())
+  .then(blob => {
+    Tesseract.recognize(
+      URL.createObjectURL(blob), 
+      'kor', 
+      { logger: m => { console.log(m) } }
+    ).catch (err => {
+      console.error(err);
+    }).then(({ data: { text } }) => { 
+      const lines = text
+        .split('\n')
+        .map((line) => line.trim().replace(/\s/g, '')
+          .replace('＊', '')
+          .replace('ㆍ', '')
+          .replace('ㅣ', '')
+          .replace('|', '')
+          .replace('、', '')
+        )
+        .filter((line) => line !== "");
+      document.querySelector('.input-area textarea').value = lines.join('\n');
+    })
+  });
 }
 
 // let imgElement = document.getElementById('imageSrc');
