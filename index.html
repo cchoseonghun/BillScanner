@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Hello OpenCV.js</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href="./css/index.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+  <div>
+    <div class="header">
+      <h2>디아블로4 사설경매장</h2>
+      <a href="https://github.com/cchoseonghun">Github</a>
+    </div>
+    
+    <div class="content">
+      <div class="cropper-area">
+        <div class="input-div" ondrop="handleDrop(event)">
+          <p>여기로 이미지를 드래그하거나 <strong>클릭</strong>하세요.</p>
+          <input type="file" class="input-file" onchange="handleChange(event)" accept="image/*"/>
+        </div>
+        <div>
+          <img id="uploaded">
+        </div>
+        <div class="actions">
+          <button id="cropBtn">Crop</button>
+        </div>
+      </div>
+  
+      <div class="user-area">
+        <section class="preview-area">
+          <h3>인식된 사진</h3>
+          <div class="cropped-image">
+            <img id="cropped" style="max-width: 100%;" />
+          </div>
+        </section>
+
+        <section class="input-area">
+          <textarea>hi</textarea>
+        </section>
+        
+      </div>
+    </div>
+  </div>
+<!--   
+  <h2>Hello OpenCV.js</h2>
+  <p id="status">OpenCV.js is loading...</p>
+  <div>
+    <div class="inputoutput">
+      <img id="templImageSrc" src="./contours.png" style="display: none;"/>
+      <img id="imageSrc" alt="No Image"/>
+      <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
+    </div>
+    <div class="inputoutput">
+      <canvas id="canvasOutput"></canvas>
+      <div class="caption">canvasOutput</div>
+    </div>
+  </div>
+ -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js" integrity="sha512-6lplKUSl86rUVprDIjiW8DuOniNX8UDoRATqZSds/7t6zCQZfaCe3e5zcGaQwxa8Kpn5RTM9Fvl3X2lLV4grPQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script async src="./js/opencv.js" type="text/javascript"></script>
+  <script src="./js/index.js"></script>
+</body>
+
+</html>
