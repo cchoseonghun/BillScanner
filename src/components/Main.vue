@@ -30,12 +30,7 @@
         </section>
 
         <section class="input-area">
-          <h3>부위</h3>
-          <div class="radio-buttons">
-            <label><input type="radio" name="type" value="weapon" checked>무기</label>
-            <label><input type="radio" name="type" value="armor" checked>방어구</label>
-            <label><input type="radio" name="type" value="accesesory" checked>장신구</label>
-          </div>
+          <textarea>hi</textarea>
         </section>
         
       </div>
@@ -75,21 +70,21 @@ export default {
       }
     };
 
-const handleDrop = (e) => {
-  e.preventDefault();
-  const file = e.dataTransfer.files[0];
-  if (typeof FileReader === 'function') {
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      uploadedImage.value = event.target.result;
-      cropperRef.value.cropper.replace(event.target.result);
+    const handleDrop = (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (typeof FileReader === 'function') {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          uploadedImage.value = event.target.result;
+          cropperRef.value.cropper.replace(event.target.result);
+        };
+        reader.readAsDataURL(file);
+        showImage();
+      } else {
+        alert('FileReader API를 지원하지 않습니다.');
+      }
     };
-    reader.readAsDataURL(file);
-    showImage();
-  } else {
-    alert('FileReader API를 지원하지 않습니다.');
-  }
-};
 
     const showImage = () => {
       document.querySelector('.input-div').style.display = 'none';
@@ -97,10 +92,10 @@ const handleDrop = (e) => {
 
     const cropImage = () => {
       croppedImage.value = cropperRef.value.cropper.getCroppedCanvas().toDataURL();
-      recognizeTesseract();
+      detectText();
     };
 
-    const recognizeTesseract = () => {
+    const detectText = () => {
       fetch(croppedImage.value)
       .then(response => response.blob())
       .then(blob => {
@@ -108,32 +103,23 @@ const handleDrop = (e) => {
 
         Tesseract.recognize(
           blobURL, 
-          'eng+kor', 
+          'kor', 
           { logger: m => 
             console.log(m) 
           }
         ).catch (err => {
           console.error(err);
         }).then(({ data: { text } }) => { 
-          const target = text.replace(/\s/g, '');
-          console.log(target);
-
-          if (target.includes('계정귀속')) {
-            alert('계정 귀속된 아이템은 거래할 수 없습니다.');
-            return
-          }
-          if (target.includes('마법') || target.includes('전설')) {
-            alert('희귀 아이템만 거래 가능합니다.');
-            return
-          }
-          if (target.includes('목걸이') || target.includes('반지')) {
-            document.querySelector('input[name="type"][value="accesesory"]').checked = true;
-          } else if (target.includes('투구') || target.includes('가슴방어구') || target.includes('장갑') || target.includes('바지') || target.includes('장화')) {
-            document.querySelector('input[name="type"][value="armor"]').checked = true;
-          } else {
-            document.querySelector('input[name="type"][value="weapon"]').checked = true;
-          }
-
+          const lines = text
+            .split('\n')
+            .map((line) => 
+              line.trim()
+              .replace(/\s/g, '')
+              .replace('＊', '')
+              .replace('ㆍ', '')
+            )
+            .filter((line) => line !== "");
+          document.querySelector('.input-area textarea').value = lines.join('\n');
         })
       });
     }
@@ -216,7 +202,7 @@ body {
 
 .user-area {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 .preview-area {
@@ -228,11 +214,8 @@ body {
   max-width: 100%;
 }
 
-.radio-buttons {
-  display: flex;
-}
-
-.radio-buttons label {
-  margin-right: 10px;
+.input-area textarea {
+  width: 300px;
+  height: 300px;
 }
 </style>
