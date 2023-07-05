@@ -3,12 +3,14 @@ const handleDrop = (e) => {
   const tempImagePath = URL.createObjectURL(e.dataTransfer.files[0]);
   document.querySelector('#uploaded').src = tempImagePath;
   setCropper();
+  document.querySelector('.input-div').style.display = 'none';
 }
 
 const handleChange = (e) => {
   const tempImagePath = URL.createObjectURL(e.target.files[0]);
   document.querySelector('#uploaded').src = tempImagePath;
   setCropper();
+  document.querySelector('.input-div').style.display = 'none';
 }
 
 const setCropper = () => {
@@ -22,15 +24,25 @@ const setCropper = () => {
 }
 
 const detectText = (dataUrl) => {
+  document.querySelector('.cropper-area').style.display = 'none';
+  document.querySelector('.result-area').style.display = 'block';
+
+  document.querySelector('.result-area h3').innerHTML = '인식중...';
   fetch(dataUrl)
   .then(response => response.blob())
   .then(blob => {
     Tesseract.recognize(
       URL.createObjectURL(blob), 
       'kor', 
-      { logger: m => { console.log(m) } }
+      { logger: m => {
+        if (m.status == 'recognizing text') {
+          progress_value = (m.progress).toFixed(2) * 100;
+          document.querySelector('.result-area progress').value = progress_value;
+        }
+      } }
     ).catch (err => {
       console.error(err);
+      document.querySelector('.result-area h3').innerHTML = '인식실패';
     }).then(({ data: { text } }) => { 
       const lines = text
         .split('\n')
@@ -42,7 +54,8 @@ const detectText = (dataUrl) => {
           .replace('、', '')
         )
         .filter((line) => line !== "");
-      document.querySelector('.input-area textarea').value = lines.join('\n');
+      document.querySelector('.result-area textarea').value = lines.join('\n');
+      document.querySelector('.result-area h3').innerHTML = '인식완료';
     })
   });
 }
