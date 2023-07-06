@@ -14,7 +14,12 @@ const handleChange = (e) => {
 }
 
 const setCropper = () => {
-  const cropper = new Cropper(document.querySelector("#uploaded"), { });
+  const cropper = new Cropper(document.querySelector("#uploaded"), {
+    data: {
+      width: 370,
+      height: 370,
+    },
+  });
 
   document.querySelector('#cropBtn').onclick = function () {
     const croppedCanvasDataUrl = cropper.getCroppedCanvas().toDataURL();
