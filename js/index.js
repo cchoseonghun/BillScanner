@@ -65,33 +65,30 @@ const detectText = (dataUrl) => {
   });
 }
 
-// let imgElement = document.getElementById('imageSrc');
-// let inputElement = document.getElementById('fileInput');
+const thresholding = (type) => {
+  const cropped = document.querySelector('#cropped');
+  const output = document.createElement('canvas');
 
-// inputElement.addEventListener('change', (e) => {
-//   imgElement.src = URL.createObjectURL(e.target.files[0]);
-// }, false);
+  let src = cv.imread(cropped);
+  let dst = new cv.Mat();
 
-// imgElement.onload = function () {
-//   let src = cv.imread(imgElement);
-//   let testImgElement = document.getElementById('templImageSrc');
-//   let templ = cv.imread(testImgElement);
-//   let dst = new cv.Mat();
-//   let mask = new cv.Mat();
-//   cv.matchTemplate(src, templ, dst, cv.TM_CCOEFF, mask);
-//   let result = cv.minMaxLoc(dst, mask);
-//   let maxPoint = result.maxLoc;
-//   let rect = new cv.Rect(maxPoint.x, maxPoint.y, templ.cols, src.rows - maxPoint.y);
-//   dst = src.roi(rect);
-//   cv.cvtColor(dst, dst, cv.COLOR_RGBA2GRAY);
-//   cv.threshold(dst, dst, 177, 200, cv.THRESH_OTSU);
-//   cv.imshow('canvasOutput', dst);
-//   src.delete(); dst.delete(); mask.delete();
-// };
+  cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+  switch(type) {
+    case 'OTSU': 
+      cv.threshold(dst, dst, 177, 200, cv.THRESH_OTSU);
+      break;
+  }
+  cv.imshow(output, dst);
+  cropped.src = output.toDataURL();
 
-// var Module = {
-//   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
-//   onRuntimeInitialized() {
-//     document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
-//   }
-// };
+  src.delete(); 
+  dst.delete(); 
+}
+
+var Module = {
+  // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
+  onRuntimeInitialized() {
+    // document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+    console.log('OpenCV.js is ready.');
+  }
+};
