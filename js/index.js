@@ -65,8 +65,11 @@ const detectText = (dataUrl) => {
   });
 }
 
+let save_default;
+let save_otsu;
 const thresholding = (type) => {
   const cropped = document.querySelector('#cropped');
+  save_default = cropped.src;
   const output = document.createElement('canvas');
 
   let src = cv.imread(cropped);
@@ -83,6 +86,18 @@ const thresholding = (type) => {
 
   src.delete(); 
   dst.delete(); 
+}
+
+const test = () => {  // default로
+  const cropped = document.querySelector('#cropped');
+  save_otsu = cropped.src;
+  cropped.src = save_default;
+}
+
+const test2 = () => {  // 다시 otsu로
+  const cropped = document.querySelector('#cropped');
+  save_default = cropped.src;
+  cropped.src = save_otsu;
 }
 
 var Module = {
