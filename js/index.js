@@ -1,3 +1,8 @@
+const cropped = document.querySelector('#cropped');
+const output = document.createElement('canvas');
+
+let save_default;
+
 const handleDrop = (e) => {
   e.preventDefault()
   const tempImagePath = URL.createObjectURL(e.dataTransfer.files[0]);
@@ -23,16 +28,19 @@ const setCropper = () => {
 
   document.querySelector('#cropBtn').onclick = function () {
     const croppedCanvasDataUrl = cropper.getCroppedCanvas().toDataURL();
-    document.querySelector('#cropped').src = croppedCanvasDataUrl;
-    detectText(croppedCanvasDataUrl);
+    cropped.src = croppedCanvasDataUrl;
+    save_default = croppedCanvasDataUrl;
+    detectText(save_default);
+
+    document.querySelector('.cropper-area').style.display = 'none';
+    document.querySelector('.result-area').style.display = 'block';
   };
 }
 
 const detectText = (dataUrl) => {
-  document.querySelector('.cropper-area').style.display = 'none';
-  document.querySelector('.result-area').style.display = 'block';
-
   document.querySelector('.result-area h3').innerHTML = '인식중...';
+  document.querySelector('.result-area textarea').value = '';
+
   fetch(dataUrl)
   .then(response => response.blob())
   .then(blob => {
@@ -51,7 +59,8 @@ const detectText = (dataUrl) => {
     }).then(({ data: { text } }) => { 
       const lines = text
         .split('\n')
-        .map((line) => line.trim().replace(/\s/g, '')
+        .map((line) => line.trim()
+          .replace(/\s/g, '')
           .replace('＊', '')
           .replace('ㆍ', '')
           .replace('ㅣ', '')
@@ -65,45 +74,46 @@ const detectText = (dataUrl) => {
   });
 }
 
-let save_default;
-let save_otsu;
-const thresholding = (type) => {
-  const cropped = document.querySelector('#cropped');
-  save_default = cropped.src;
-  const output = document.createElement('canvas');
+const setDefault = () => {
+  cropped.src = save_default;
+  detectText(save_default);
+}
+
+const setGrayscale = () => {
 
   let src = cv.imread(cropped);
   let dst = new cv.Mat();
 
   cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
-  switch(type) {
-    case 'OTSU': 
-      cv.threshold(dst, dst, 177, 200, cv.THRESH_OTSU);
-      break;
-  }
   cv.imshow(output, dst);
-  cropped.src = output.toDataURL();
+
+  const changedDataURL = output.toDataURL();
+  cropped.src = changedDataURL;
+  detectText(changedDataURL);
 
   src.delete(); 
   dst.delete(); 
 }
 
-const test = () => {  // default로
-  const cropped = document.querySelector('#cropped');
-  save_otsu = cropped.src;
-  cropped.src = save_default;
-}
+const setThresholding = () => {
+  let src = cv.imread(cropped);
+  let dst = new cv.Mat();
 
-const test2 = () => {  // 다시 otsu로
-  const cropped = document.querySelector('#cropped');
-  save_default = cropped.src;
-  cropped.src = save_otsu;
+  cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+  cv.threshold(dst, dst, 177, 200, cv.THRESH_OTSU);
+  cv.imshow(output, dst);
+
+  const changedDataURL = output.toDataURL();
+  cropped.src = changedDataURL;
+  detectText(changedDataURL);
+
+  src.delete(); 
+  dst.delete(); 
 }
 
 var Module = {
   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
   onRuntimeInitialized() {
-    // document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
     console.log('OpenCV.js is ready.');
   }
 };
