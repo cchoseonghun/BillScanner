@@ -109,6 +109,10 @@ const setThresholding = () => {
   dst.delete(); 
 }
 
+const reset = () => {
+  location.reload();
+}
+
 var Module = {
   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
   onRuntimeInitialized() {
