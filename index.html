@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>이미지 문자 인식 헬퍼</title>
+  <title>BillScanner</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="./css/index.css" rel="stylesheet" type="text/css"/>
 </head>
@@ -13,7 +13,7 @@
 <body>
   <div>
     <div class="header">
-      <h2>이미지 문자 인식 헬퍼</h2>
+      <h2>이미지 문자 추출 헬퍼 BillScanner</h2>
       <a href="https://github.com/cchoseonghun">Github</a>
     </div>
     
@@ -39,15 +39,21 @@
           </div>
         </section>
 
-        <section class="result-area" style="display: none;">
+        <section class="result-area">
           <h3></h3>
           <progress value="0" min="0" max="100"></progress>
           <div>
             <textarea></textarea>
           </div>
-          <button onclick="setDefault()">default</button>
-          <button onclick="setGrayscale()">grayscale</button>
-          <button onclick="setThresholding()">otsu</button>
+          <div>
+            <span>OTSU 변환을 추천드립니다.</span>
+            <div>
+              type: 
+              <button onclick="setDefault()">default</button>
+              <button onclick="setGrayscale()">grayscale</button>
+              <button onclick="setThresholding()">otsu</button>
+            </div>
+          </div>
         </section>
       </div>
     </div>

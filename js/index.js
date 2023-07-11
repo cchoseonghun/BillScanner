@@ -30,23 +30,23 @@ const setCropper = () => {
     const croppedCanvasDataUrl = cropper.getCroppedCanvas().toDataURL();
     cropped.src = croppedCanvasDataUrl;
     save_default = croppedCanvasDataUrl;
-    detectText(save_default);
+    detectText('기본값', save_default);
 
     document.querySelector('.cropper-area').style.display = 'none';
-    document.querySelector('.result-area').style.display = 'block';
+    document.querySelector('.user-area').style.display = 'flex';
   };
 }
 
-const detectText = (dataUrl) => {
-  document.querySelector('.result-area h3').innerHTML = '인식중...';
-  document.querySelector('.result-area textarea').value = '';
+const detectText = (type, dataUrl) => {
+  document.querySelector('.result-area h3').innerHTML = type;
+  document.querySelector('.result-area textarea').value = '인식중...';
 
   fetch(dataUrl)
   .then(response => response.blob())
   .then(blob => {
     Tesseract.recognize(
       URL.createObjectURL(blob), 
-      'kor', 
+      'kor+eng', 
       { logger: m => {
         if (m.status == 'recognizing text') {
           progress_value = (m.progress).toFixed(2) * 100;
@@ -55,7 +55,6 @@ const detectText = (dataUrl) => {
       } }
     ).catch (err => {
       console.error(err);
-      document.querySelector('.result-area h3').innerHTML = '인식실패';
     }).then(({ data: { text } }) => { 
       const lines = text
         .split('\n')
@@ -69,14 +68,13 @@ const detectText = (dataUrl) => {
         )
         .filter((line) => line !== "");
       document.querySelector('.result-area textarea').value = lines.join('\n');
-      document.querySelector('.result-area h3').innerHTML = '인식완료';
     })
   });
 }
 
 const setDefault = () => {
   cropped.src = save_default;
-  detectText(save_default);
+  detectText('기본값', save_default);
 }
 
 const setGrayscale = () => {
@@ -89,7 +87,7 @@ const setGrayscale = () => {
 
   const changedDataURL = output.toDataURL();
   cropped.src = changedDataURL;
-  detectText(changedDataURL);
+  detectText('grayscale', changedDataURL);
 
   src.delete(); 
   dst.delete(); 
@@ -105,7 +103,7 @@ const setThresholding = () => {
 
   const changedDataURL = output.toDataURL();
   cropped.src = changedDataURL;
-  detectText(changedDataURL);
+  detectText('threshold - OTSU', changedDataURL);
 
   src.delete(); 
   dst.delete(); 
