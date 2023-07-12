@@ -16,6 +16,22 @@
       <h2>이미지 문자 추출 헬퍼 BillScanner</h2>
       <a href="https://github.com/cchoseonghun">Github</a>
     </div>
+<!-- 
+    <div>
+      <table>
+        <tr><td>살|등등한모반쿰[</td></tr>
+        <tr><td>신성희귀투구101</td></tr>
+        <tr><td>아이템위력679</td></tr>
+        <tr><td>방어도849()</td></tr>
+        <tr><td>민첩+33+[24-34]</td></tr>
+        <tr><td>광폭화상태일때공격력+7.5%</td></tr>
+        <tr><td>[5.0-10.0]%</td></tr>
+        <tr><td>암흑저항22.5%[19.5-34.5]%</td></tr>
+        <tr><td>결정타등급+2[9](야만용사전용)</td></tr>
+        <tr><td>요구레벨:62</td></tr>
+        <tr><td>야만용사</td></tr>
+      </table>
+    </div> -->
     
     <div class="content">
       <div class="cropper-area">
@@ -27,7 +43,7 @@
           <img id="uploaded">
         </div>
         <div class="actions">
-          <button id="cropBtn">추출</button>
+          <button id="cropBtn">Crop</button>
         </div>
       </div>
   
@@ -49,12 +65,12 @@
             <span>OTSU 변환을 추천드립니다.</span>
             <div>
               type: 
-              <button onclick="setDefault()">default</button>
-              <button onclick="setGrayscale()">grayscale</button>
-              <button onclick="setThresholding()">otsu</button>
+              <button onclick="setDefault()">Default</button>
+              <button onclick="setGrayscale()">Grayscale</button>
+              <button onclick="setThresholding()">OTSU</button>
+              <button onclick="reset()">Reset</button>
             </div>
           </div>
-          <button onclick="reset()">리셋</button>
         </section>
       </div>
     </div>
