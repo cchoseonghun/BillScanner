@@ -2,6 +2,7 @@ const cropped = document.querySelector('#cropped');
 const output = document.createElement('canvas');
 
 let save_default;
+let detectedData;
 
 const handleDrop = (e) => {
   e.preventDefault()
@@ -67,9 +68,40 @@ const detectText = (type, dataUrl) => {
           .replace('、', '')
         )
         .filter((line) => line !== "");
+      detectedData = lines.map((line) => {
+        return { data: line }
+      })
       document.querySelector('.result-area textarea').value = lines.join('\n');
     })
   });
+}
+
+const excelDownloadFn = () => {
+  try {
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet('시트1');
+
+    sheet.columns = [
+      {header: '데이터', key: 'data'},
+    ]
+
+    // detectedData = [ { data: 'detected line' } ]
+    detectedData.map((row) => {
+      sheet.addRow(row);
+    });
+ 
+    workbook.xlsx.writeBuffer().then((data) => {
+      const blob = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+      const url = window.URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `BillScanner.xlsx`;
+      anchor.click();
+      window.URL.revokeObjectURL(url);
+    })
+  } catch(error) {
+    console.error(error);
+  }
 }
 
 const setDefault = () => {
