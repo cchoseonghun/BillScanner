@@ -15,8 +15,7 @@ const handleDrop = (e) => {
 const handleChange = (e) => {
   const tempImagePath = URL.createObjectURL(e.target.files[0]);
   document.querySelector('#uploaded').src = tempImagePath;
-  setCropper();
-  document.querySelector('.input-div').style.display = 'none';
+  showCropper();
 }
 
 const setCropper = () => {
@@ -110,7 +109,6 @@ const setDefault = () => {
 }
 
 const setGrayscale = () => {
-
   let src = cv.imread(cropped);
   let dst = new cv.Mat();
 
@@ -143,6 +141,12 @@ const setThresholding = () => {
 
 const reset = () => {
   location.reload();
+}
+
+const showCropper = () => {
+  setCropper();
+  document.querySelector('.input-div').style.display = 'none';
+  document.querySelector('.camera-area').style.display = 'none';
 }
 
 var Module = {

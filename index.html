@@ -18,19 +18,11 @@
       <a href="https://github.com/cchoseonghun">Github</a>
     </div>
 
-    <!-- 카메라 테스트 시작 -->
-    <button onclick="handleTest()">테스트</button>
-    <div class="contentarea">
-      <div class="camera">
-        <video id="video">Video stream not available.</video>
-        <button id="startbutton">Take photo</button>
-      </div>
-      <canvas id="canvas"></canvas>
-      <div class="output">
-        <img id="photo" alt="The screen capture will appear in this box." />
-      </div>
+    <button onclick="setCamera()">카메라 사용</button>
+    <div class="camera-area">
+      <video></video>
+      <button onclick="takePicture()">Capture</button>
     </div>
-    <!-- 카메라 테스트 끝 -->
 
     <div class="content">
       <div class="cropper-area">

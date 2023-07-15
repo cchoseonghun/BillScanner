@@ -1,13 +1,6 @@
-video = document.getElementById('video');
-canvas = document.getElementById('canvas');
-photo = document.getElementById('photo');
-startbutton = document.getElementById('startbutton');
+const video = document.querySelector('.camera-area video');
 
-const handleTest = () => {
-  getMedia();
-}
-
-function getMedia() {
+const setCamera = () => {
   navigator.mediaDevices
   .getUserMedia({ video: true, audio: false })
   .then((stream) => {
@@ -19,24 +12,16 @@ function getMedia() {
   });
 }
 
-startbutton.addEventListener(
-  "click",
-  (ev) => {
-    takepicture();
-    ev.preventDefault();
-  },
-  false,
-);
-
-function takepicture() {
+const takePicture = () => {
+  const canvas = document.createElement('canvas');
   const context = canvas.getContext("2d");
-  const width = 400;
-  const height = 400;
+  const width = 1024;
+  const height = 540;
   canvas.width = width;
   canvas.height = height;
   context.drawImage(video, 0, 0, width, height);
 
-  const data = canvas.toDataURL("image/png");
-  photo.setAttribute("src", data);
+  document.querySelector('#uploaded').src = canvas.toDataURL();
+  showCropper();
 }
 
