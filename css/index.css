@@ -20,7 +20,7 @@ body {
   color: black;
 }
 
-.input-div {
+.input-area {
   width: 100%;
   height: 200px;
   border-radius: 5px;
@@ -73,4 +73,36 @@ body {
 .result-area textarea {
   width: 300px;
   height: 300px;
+}
+
+.select-area {
+  display: flex;
+}
+.select-area button {
+  width: 50%;
+  height: 50px;
+}
+
+.camera-area {
+  width: 100%;
+  display: inline-block;
+}
+
+.camera-area video {
+  border: 1px solid black;
+  box-shadow: 2px 2px 3px black;
+  width: 1024px;
+  height: 540px;
+}
+
+.camera-area button {
+  display: block;
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  bottom: 32px;
+  background-color: rgba(0, 150, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0px 0px 1px 2px rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 1);
 }

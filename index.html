@@ -8,7 +8,6 @@
   <title>BillScanner</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" integrity="sha512-cyzxRvewl+FOKTtpBzYjW6x6IAYUCZy3sGP40hn+DQkqeluGRCax7qztK2ImL64SA+C7kVWdLI6wvdlStawhyw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link href="./css/index.css" rel="stylesheet" type="text/css"/>
-  <link href="./css/camera.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
@@ -18,18 +17,25 @@
       <a href="https://github.com/cchoseonghun">Github</a>
     </div>
 
-    <button onclick="setCamera()">카메라 사용</button>
-    <div class="camera-area">
-      <video></video>
-      <button onclick="takePicture()">Capture</button>
-    </div>
-
     <div class="content">
-      <div class="cropper-area">
-        <div class="input-div" ondrop="handleDrop(event)">
+
+      <div class="select-area">
+        <button onclick="setCamera()">카메라 사용</button>
+        <button onclick="setInput()">이미지파일 사용</button>
+      </div>
+      
+      <div>
+        <div class="camera-area">
+          <video></video>
+          <button onclick="takePicture()">Capture</button>
+        </div> 
+        <div class="input-area" ondrop="handleDrop(event)">
           <p>여기로 이미지를 드래그하거나 <strong>클릭</strong>하세요.</p>
           <input type="file" class="input-file" onchange="handleChange(event)" accept="image/*"/>
         </div>
+      </div>
+
+      <div class="cropper-area">
         <div>
           <img id="uploaded">
         </div>
@@ -78,8 +84,6 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js" integrity="sha512-UnrKxsCMN9hFk7M56t4I4ckB4N/2HHi0w/7+B/1JsXIX3DmyBcsGpT3/BsuZMZf+6mAr0vP81syWtfynHJ69JA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- index.js -->
   <script src="./js/index.js"></script>
-  <!-- camera -->
-  <script src="./js/camera.js"></script>
 </body>
 
 </html>
