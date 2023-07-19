@@ -153,7 +153,7 @@ const showCropper = () => {
 const video = document.querySelector('.camera-area video');
 
 const setCamera = () => {
-  document.querySelector('.camera-area').style.display = 'block';
+  document.querySelector('.camera-area').style.display = 'inline-block';
   document.querySelector('.input-area').style.display = 'none';
 
   navigator.mediaDevices
@@ -169,7 +169,7 @@ const setCamera = () => {
 
 const setInput = () => {
   document.querySelector('.camera-area').style.display = 'none';
-  document.querySelector('.input-area').style.display = 'block';
+  document.querySelector('.input-area').style.display = 'flex';
 
   video.srcObject = null;
 }
