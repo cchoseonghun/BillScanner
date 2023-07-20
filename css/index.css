@@ -83,6 +83,14 @@ body {
   height: 50px;
 }
 
+.select-area2 {
+  display: none;
+}
+.select-area2 button {
+  width: 100%;
+  height: 50px;
+}
+
 .camera-area {
   width: 100%;
   /* display: inline-block; */

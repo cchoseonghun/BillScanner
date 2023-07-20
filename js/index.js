@@ -156,6 +156,9 @@ const setCamera = () => {
   document.querySelector('.camera-area').style.display = 'inline-block';
   document.querySelector('.input-area').style.display = 'none';
 
+  document.querySelectorAll('.select-area button')[0].classList.add('active');
+  document.querySelectorAll('.select-area button')[1].classList.remove('active');
+
   navigator.mediaDevices
   .getUserMedia({ video: true, audio: false })
   .then((stream) => {
@@ -170,6 +173,9 @@ const setCamera = () => {
 const setInput = () => {
   document.querySelector('.camera-area').style.display = 'none';
   document.querySelector('.input-area').style.display = 'flex';
+
+  document.querySelectorAll('.select-area button')[0].classList.remove('active');
+  document.querySelectorAll('.select-area button')[1].classList.add('active');
 
   video.srcObject = null;
 }
