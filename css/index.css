@@ -41,9 +41,9 @@ body {
   cursor: pointer;
 }
 
-.area-cropper {
+/* .area-cropper {
   width: 100%;
-}
+} */
 
 #uploaded {
   max-width: 100%;
@@ -71,20 +71,20 @@ body {
   height: 300px;
 }
 
-.area-camera {
+#area-camera {
   width: 100%;
   /* display: inline-block; */
   display: none;
 }
 
-.area-camera video {
+#area-camera video {
   border: 1px solid black;
   box-shadow: 2px 2px 3px black;
   width: 1024px;
   height: 540px;
 }
 
-.area-camera button {
+#area-camera button {
   display: block;
   position: relative;
   margin-left: auto;

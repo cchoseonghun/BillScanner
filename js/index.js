@@ -19,6 +19,9 @@ const handleChange = (e) => {
 }
 
 const setCropper = () => {
+  document.querySelector('#area-reader').classList.add('d-none');
+  document.querySelector('#btn-reset').classList.remove('d-none');
+
   const cropper = new Cropper(document.querySelector("#uploaded"), {
     data: {
       width: 370,
@@ -146,24 +149,26 @@ const reset = () => {
 const showCropper = () => {
   setCropper();
   document.querySelector('.area-upload').style.display = 'none';
-  document.querySelector('.area-camera').style.display = 'none';
+  // document.querySelector('#area-camera').style.display = 'none';
+  // document.querySelector('#area-camera').classList.add('d-none');
 }
 
 // camera
-const video = document.querySelector('.area-camera video');
+const videoElement = document.querySelector('#area-camera video');
 
 const setCamera = () => {
-  document.querySelector('.area-camera').style.display = 'inline-block';
-  document.querySelector('.area-upload').style.display = 'none';
+  // document.querySelector('#area-camera').style.display = 'inline-block';
+  // document.querySelector('#area-camera').classList.add('d-none');
+  // document.querySelector('.area-upload').style.display = 'none';
 
-  document.querySelectorAll('.area-how button')[0].classList.add('active');
-  document.querySelectorAll('.area-how button')[1].classList.remove('active');
+  // document.querySelectorAll('#area-how button')[0].classList.add('active');
+  // document.querySelectorAll('#area-how button')[1].classList.remove('active');
 
   navigator.mediaDevices
   .getUserMedia({ video: true, audio: false })
   .then((stream) => {
-    video.srcObject = stream;
-    video.play();
+    videoElement.srcObject = stream;
+    videoElement.play();
   })
   .catch((err) => {
     console.error(err);
@@ -171,13 +176,13 @@ const setCamera = () => {
 }
 
 const setInput = () => {
-  document.querySelector('.area-camera').style.display = 'none';
+  document.querySelector('#area-camera').style.display = 'none';
   document.querySelector('.area-upload').style.display = 'flex';
 
-  document.querySelectorAll('.area-how button')[0].classList.remove('active');
-  document.querySelectorAll('.area-how button')[1].classList.add('active');
+  document.querySelectorAll('#area-how button')[0].classList.remove('active');
+  document.querySelectorAll('#area-how button')[1].classList.add('active');
 
-  video.srcObject = null;
+  videoElement.srcObject = null;
 }
 
 const takePicture = () => {
@@ -187,7 +192,7 @@ const takePicture = () => {
   const height = 540;
   canvas.width = width;
   canvas.height = height;
-  context.drawImage(video, 0, 0, width, height);
+  context.drawImage(videoElement, 0, 0, width, height);
 
   document.querySelector('#uploaded').src = canvas.toDataURL();
   showCropper();

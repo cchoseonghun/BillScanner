@@ -13,7 +13,7 @@
 
 <body>
   <div class="container">
-    
+
     <div class="header">
       <h2>OCR Helper - BillScanner</h2>
       <a href="https://github.com/cchoseonghun">Github</a>
@@ -23,15 +23,15 @@
 
       <!-- area-input start -->
       <div class="area-input">
-        <div class="area-how row m-0">
+        <div id="area-how" class="row m-0">
           <button class="btn btn-primary col" onclick="setCamera()">Camera</button>
           <button class="btn btn-primary col" onclick="setInput()">Upload</button>
         </div>
-  
-        <button class="btn-reset btn btn-primary w-100" onclick="reset()">Reset</button>
         
-        <div>
-          <div class="area-camera">
+        <button id="btn-reset" class="btn btn-primary w-100 d-none" onclick="reset()">Reset</button>
+
+        <div id="area-reader">
+          <div id="area-camera" class="w-100">
             <video></video>
             <button id="btn-capture" class="btn btn-primary w-100" onclick="takePicture()">Capture</button>
           </div> 
@@ -40,13 +40,14 @@
             <input type="file" class="input-file" onchange="handleChange(event)" accept="image/*"/>
           </div>
         </div>
-  
-        <div class="area-cropper">
-          <div>
+
+        <div class="area-cropper w-100">
+          <!-- <div> -->
             <img id="uploaded">
-          </div>
-          <button id="btn-crop" class="btn btn-primary w-100">Crop</button>
+          <!-- </div> -->
+          <button id="btn-crop" class="btn btn-primary w-100 d-none">Crop</button>
         </div>
+
       </div>
       <!-- area-input end -->
   
@@ -78,7 +79,7 @@
           </section>
         </div>
 
-        <button class="btn btn-primary w-100" onclick="excelDownloadFn()">Excel Download</button>
+        <button class="btn btn-primary w-100 d-none" onclick="excelDownloadFn()">Excel Download</button>
       </div>
       <!-- area-output end -->
 
