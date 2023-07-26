@@ -9,7 +9,7 @@ const handleDrop = (e) => {
   const tempImagePath = URL.createObjectURL(e.dataTransfer.files[0]);
   document.querySelector('#uploaded').src = tempImagePath;
   setCropper();
-  document.querySelector('.input-area').style.display = 'none';
+  // document.querySelector('.area-upload').style.display = 'none';
 }
 
 const handleChange = (e) => {
@@ -26,20 +26,20 @@ const setCropper = () => {
     },
   });
 
-  document.querySelector('#cropBtn').onclick = function () {
+  document.querySelector('#btn-crop').onclick = function () {
     const croppedCanvasDataUrl = cropper.getCroppedCanvas().toDataURL();
     cropped.src = croppedCanvasDataUrl;
     save_default = croppedCanvasDataUrl;
-    detectText('기본값', save_default);
+    detectText('Default', save_default);
 
-    document.querySelector('.cropper-area').style.display = 'none';
-    document.querySelector('.user-area').style.display = 'flex';
+    document.querySelector('.area-cropper').style.display = 'none';
+    document.querySelector('.area-result').style.display = 'flex';
   };
 }
 
 const detectText = (type, dataUrl) => {
-  document.querySelector('.result-area h3').innerHTML = type;
-  document.querySelector('.result-area textarea').value = '인식중...';
+  document.querySelector('.area-user h3').innerHTML = 'Result: ' + type;
+  document.querySelector('.area-user textarea').value = 'Loading...';
 
   fetch(dataUrl)
   .then(response => response.blob())
@@ -50,7 +50,7 @@ const detectText = (type, dataUrl) => {
       { logger: m => {
         if (m.status == 'recognizing text') {
           progress_value = (m.progress).toFixed(2) * 100;
-          document.querySelector('.result-area progress').value = progress_value;
+          document.querySelector('.area-user progress').value = progress_value;
         }
       } }
     ).catch (err => {
@@ -70,7 +70,7 @@ const detectText = (type, dataUrl) => {
       detectedData = lines.map((line) => {
         return { data: line }
       })
-      document.querySelector('.result-area textarea').value = lines.join('\n');
+      document.querySelector('.area-user textarea').value = lines.join('\n');
     })
   });
 }
@@ -78,10 +78,10 @@ const detectText = (type, dataUrl) => {
 const excelDownloadFn = () => {
   try {
     const workbook = new ExcelJS.Workbook();
-    const sheet = workbook.addWorksheet('시트1');
+    const sheet = workbook.addWorksheet('Sheet1');
 
     sheet.columns = [
-      {header: '데이터', key: 'data'},
+      {header: 'Data', key: 'data'},
     ]
 
     // detectedData = [ { data: 'detected line' } ]
@@ -105,7 +105,7 @@ const excelDownloadFn = () => {
 
 const setDefault = () => {
   cropped.src = save_default;
-  detectText('기본값', save_default);
+  detectText('Default', save_default);
 }
 
 const setGrayscale = () => {
@@ -117,7 +117,7 @@ const setGrayscale = () => {
 
   const changedDataURL = output.toDataURL();
   cropped.src = changedDataURL;
-  detectText('grayscale', changedDataURL);
+  detectText('Grayscale', changedDataURL);
 
   src.delete(); 
   dst.delete(); 
@@ -133,7 +133,7 @@ const setThresholding = () => {
 
   const changedDataURL = output.toDataURL();
   cropped.src = changedDataURL;
-  detectText('threshold - OTSU', changedDataURL);
+  detectText('OTSU', changedDataURL);
 
   src.delete(); 
   dst.delete(); 
@@ -145,19 +145,19 @@ const reset = () => {
 
 const showCropper = () => {
   setCropper();
-  document.querySelector('.input-area').style.display = 'none';
-  document.querySelector('.camera-area').style.display = 'none';
+  document.querySelector('.area-upload').style.display = 'none';
+  document.querySelector('.area-camera').style.display = 'none';
 }
 
 // camera
-const video = document.querySelector('.camera-area video');
+const video = document.querySelector('.area-camera video');
 
 const setCamera = () => {
-  document.querySelector('.camera-area').style.display = 'inline-block';
-  document.querySelector('.input-area').style.display = 'none';
+  document.querySelector('.area-camera').style.display = 'inline-block';
+  document.querySelector('.area-upload').style.display = 'none';
 
-  document.querySelectorAll('.select-area button')[0].classList.add('active');
-  document.querySelectorAll('.select-area button')[1].classList.remove('active');
+  document.querySelectorAll('.area-how button')[0].classList.add('active');
+  document.querySelectorAll('.area-how button')[1].classList.remove('active');
 
   navigator.mediaDevices
   .getUserMedia({ video: true, audio: false })
@@ -171,11 +171,11 @@ const setCamera = () => {
 }
 
 const setInput = () => {
-  document.querySelector('.camera-area').style.display = 'none';
-  document.querySelector('.input-area').style.display = 'flex';
+  document.querySelector('.area-camera').style.display = 'none';
+  document.querySelector('.area-upload').style.display = 'flex';
 
-  document.querySelectorAll('.select-area button')[0].classList.remove('active');
-  document.querySelectorAll('.select-area button')[1].classList.add('active');
+  document.querySelectorAll('.area-how button')[0].classList.remove('active');
+  document.querySelectorAll('.area-how button')[1].classList.add('active');
 
   video.srcObject = null;
 }

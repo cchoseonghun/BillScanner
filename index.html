@@ -12,72 +12,80 @@
 </head>
 
 <body>
-  <div>
+  <div class="container">
+    
     <div class="header">
-      <h2>이미지 문자 추출 헬퍼 BillScanner</h2>
+      <h2>OCR Helper - BillScanner</h2>
       <a href="https://github.com/cchoseonghun">Github</a>
     </div>
 
     <div class="content">
 
-      <div class="select-area">
-        <button class="btn btn-primary" onclick="setCamera()">카메라 사용</button>
-        <button class="btn btn-primary" onclick="setInput()">이미지파일 사용</button>
-      </div>
-
-      <div class="select-area2">
-        <button class="btn btn-primary" onclick="setReset()">리셋</button>
-      </div>
-      
-      <div>
-        <div class="camera-area">
-          <video></video>
-          <button onclick="takePicture()">Capture</button>
-        </div> 
-        <div class="input-area" ondrop="handleDrop(event)">
-          <p>여기로 이미지를 드래그하거나 <strong>클릭</strong>하세요.</p>
-          <input type="file" class="input-file" onchange="handleChange(event)" accept="image/*"/>
+      <!-- area-input start -->
+      <div class="area-input">
+        <div class="area-how row m-0">
+          <button class="btn btn-primary col" onclick="setCamera()">Camera</button>
+          <button class="btn btn-primary col" onclick="setInput()">Upload</button>
         </div>
-      </div>
-
-      <div class="cropper-area">
-        <div>
-          <img id="uploaded">
-        </div>
-        <div class="actions">
-          <button id="cropBtn">Crop</button>
-        </div>
-      </div>
   
-      <div class="user-area">
-        <section class="preview-area">
-          <h3>인식결과</h3>
-          <div class="cropped-image">
-            <img id="cropped" style="max-width: 100%;" />
+        <button class="btn-reset btn btn-primary w-100" onclick="reset()">Reset</button>
+        
+        <div>
+          <div class="area-camera">
+            <video></video>
+            <button id="btn-capture" class="btn btn-primary w-100" onclick="takePicture()">Capture</button>
+          </div> 
+          <div class="area-upload" ondrop="handleDrop(event)">
+            <p>Drag an image here or <strong>upload a file</strong></p>
+            <input type="file" class="input-file" onchange="handleChange(event)" accept="image/*"/>
           </div>
-        </section>
-
-        <section class="result-area">
-          <h3></h3>
-          <progress value="0" min="0" max="100"></progress>
+        </div>
+  
+        <div class="area-cropper">
           <div>
-            <textarea></textarea>
+            <img id="uploaded">
           </div>
-          <div>
-            <span>OTSU 변환을 추천드립니다.</span>
-            <div>
-              type: 
-              <button onclick="setDefault()">Default</button>
-              <button onclick="setGrayscale()">Grayscale</button>
-              <button onclick="setThresholding()">OTSU</button>
-              <button onclick="reset()">Reset</button>
-              <button onclick="excelDownloadFn()">엑셀 다운로드</button>
-            </div>
-          </div>
-        </section>
+          <button id="btn-crop" class="btn btn-primary w-100">Crop</button>
+        </div>
       </div>
+      <!-- area-input end -->
+  
+      <!-- area-output start -->
+      <div class="area-output">
+
+        <div class="area-result">
+          <section class="area-preview">
+            <h3>Preview</h3>
+            <div class="cropped-image">
+              <img id="cropped" style="max-width: 100%;" />
+            </div>
+          </section>
+  
+          <section class="area-user">
+            <h3></h3>
+            <progress value="0" min="0" max="100"></progress>
+            <div>
+              <textarea></textarea>
+            </div>
+            <div>
+              <div>
+                Change: 
+                <button onclick="setDefault()">Default</button>
+                <button onclick="setGrayscale()">Grayscale</button>
+                <button onclick="setThresholding()">OTSU</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <button class="btn btn-primary w-100" onclick="excelDownloadFn()">Excel Download</button>
+      </div>
+      <!-- area-output end -->
+
     </div>
+    <!-- content end -->
   </div>
+  <!-- container end -->
 
   <!-- bootstrap -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
