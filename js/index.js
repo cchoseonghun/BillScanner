@@ -99,7 +99,7 @@ const excelDownloadFn = () => {
       const url = window.URL.createObjectURL(blob);
       const anchor = document.createElement('a');
       anchor.href = url;
-      anchor.download = `BillScanner.xlsx`;
+      anchor.download = `OCR_Helper.xlsx`;
       anchor.click();
       window.URL.revokeObjectURL(url);
     })
