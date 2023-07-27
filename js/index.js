@@ -9,7 +9,6 @@ const handleDrop = (e) => {
   const tempImagePath = URL.createObjectURL(e.dataTransfer.files[0]);
   document.querySelector('#uploaded').src = tempImagePath;
   setCropper();
-  // document.querySelector('.area-upload').style.display = 'none';
 }
 
 const handleChange = (e) => {
@@ -19,8 +18,9 @@ const handleChange = (e) => {
 }
 
 const setCropper = () => {
-  document.querySelector('#area-reader').classList.add('d-none');
+  document.querySelector('#area-input').classList.add('d-none');
   document.querySelector('#btn-reset').classList.remove('d-none');
+  document.querySelector('#area-cropper').classList.remove('d-none');
 
   const cropper = new Cropper(document.querySelector("#uploaded"), {
     data: {
@@ -35,14 +35,15 @@ const setCropper = () => {
     save_default = croppedCanvasDataUrl;
     detectText('Default', save_default);
 
-    document.querySelector('.area-cropper').style.display = 'none';
-    document.querySelector('.area-result').style.display = 'flex';
+  document.querySelector('#area-cropper').classList.add('d-none');
+  document.querySelector('#area-output').classList.remove('d-none');
+    // document.querySelector('.area-result').style.display = 'flex';
   };
 }
 
 const detectText = (type, dataUrl) => {
-  document.querySelector('.area-user h3').innerHTML = 'Result: ' + type;
-  document.querySelector('.area-user textarea').value = 'Loading...';
+  document.querySelector('#area-user h3').innerHTML = 'Result: ' + type;
+  document.querySelector('#area-user textarea').value = 'Loading...';
 
   fetch(dataUrl)
   .then(response => response.blob())
@@ -53,7 +54,7 @@ const detectText = (type, dataUrl) => {
       { logger: m => {
         if (m.status == 'recognizing text') {
           progress_value = (m.progress).toFixed(2) * 100;
-          document.querySelector('.area-user progress').value = progress_value;
+          document.querySelector('#area-user progress').value = progress_value;
         }
       } }
     ).catch (err => {
@@ -73,7 +74,7 @@ const detectText = (type, dataUrl) => {
       detectedData = lines.map((line) => {
         return { data: line }
       })
-      document.querySelector('.area-user textarea').value = lines.join('\n');
+      document.querySelector('#area-user textarea').value = lines.join('\n');
     })
   });
 }
@@ -148,7 +149,7 @@ const reset = () => {
 
 const showCropper = () => {
   setCropper();
-  document.querySelector('.area-upload').style.display = 'none';
+  document.querySelector('#area-upload').style.display = 'none';
   // document.querySelector('#area-camera').style.display = 'none';
   // document.querySelector('#area-camera').classList.add('d-none');
 }
@@ -157,30 +158,29 @@ const showCropper = () => {
 const videoElement = document.querySelector('#area-camera video');
 
 const setCamera = () => {
-  // document.querySelector('#area-camera').style.display = 'inline-block';
-  // document.querySelector('#area-camera').classList.add('d-none');
-  // document.querySelector('.area-upload').style.display = 'none';
+  document.querySelectorAll('#area-how button')[0].classList.add('active');
+  document.querySelectorAll('#area-how button')[1].classList.remove('active');
+  
+  document.querySelector('#area-camera').classList.remove('d-none');
+  document.querySelector('#area-upload').classList.add('d-none');
 
-  // document.querySelectorAll('#area-how button')[0].classList.add('active');
-  // document.querySelectorAll('#area-how button')[1].classList.remove('active');
-
-  navigator.mediaDevices
-  .getUserMedia({ video: true, audio: false })
-  .then((stream) => {
-    videoElement.srcObject = stream;
-    videoElement.play();
-  })
-  .catch((err) => {
-    console.error(err);
-  });
+  // navigator.mediaDevices
+  // .getUserMedia({ video: true, audio: false })
+  // .then((stream) => {
+  //   videoElement.srcObject = stream;
+  //   videoElement.play();
+  // })
+  // .catch((err) => {
+  //   console.error(err);
+  // });
 }
 
 const setInput = () => {
-  document.querySelector('#area-camera').style.display = 'none';
-  document.querySelector('.area-upload').style.display = 'flex';
-
   document.querySelectorAll('#area-how button')[0].classList.remove('active');
   document.querySelectorAll('#area-how button')[1].classList.add('active');
+  
+  document.querySelector('#area-camera').classList.add('d-none');
+  document.querySelector('#area-upload').classList.remove('d-none');
 
   videoElement.srcObject = null;
 }
