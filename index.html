@@ -12,7 +12,7 @@
 </head>
 
 <body>
-  <div class="container mb-3">
+  <div class="container mb-3">    
 
     <div class="header mb-3">
       <h2>OCR Helper - BillScanner</h2>
@@ -21,9 +21,14 @@
 
     <div class="content">
 
+      <!-- <div id="test" class="progress" role="progressbar">
+        <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+      </div> -->
+
       <!-- area-input start -->
       <div id="area-input">
-        <div id="area-how" class="row m-0 mb-1">
+        <!-- <div id="area-how" class="row m-0 mb-1 justify-content-between"> -->
+        <div id="area-how" class="row m-0">
           <button class="btn btn-outline-dark col" onclick="setCamera()">Camera</button>
           <button class="btn btn-outline-dark col active" onclick="setInput()">Upload</button>
         </div>
@@ -64,17 +69,18 @@
   
           <section id="area-user" class="col">
             <h3></h3>
-            <progress class="w-100" value="0" min="0" max="100"></progress>
-            <div>
-              <textarea></textarea>
+            <div class="progress" role="progressbar">
+              <div class="progress-bar progress-bar-striped progress-bar-animated"></div>
             </div>
-            <div>
-              <div>
-                Change: 
-                <button onclick="setDefault()">Default</button>
-                <button onclick="setGrayscale()">Grayscale</button>
-                <button onclick="setThresholding()">OTSU</button>
-              </div>
+            <textarea></textarea>
+            
+            <div class="row m-0">
+              <select class="form-select col me-1">
+                <option selected value="default">Default</option>
+                <option value="grayscale">Grayscale</option>
+                <option value="otsu">OTSU</option>
+              </select>
+              <button type="button" class="btn btn-outline-dark col ms-1" onclick="changeResultType()">Change</button>
             </div>
           </section>
         </div>

@@ -37,7 +37,6 @@ const setCropper = () => {
 
   document.querySelector('#area-cropper').classList.add('d-none');
   document.querySelector('#area-output').classList.remove('d-none');
-    // document.querySelector('.area-result').style.display = 'flex';
   };
 }
 
@@ -54,7 +53,7 @@ const detectText = (type, dataUrl) => {
       { logger: m => {
         if (m.status == 'recognizing text') {
           progress_value = (m.progress).toFixed(2) * 100;
-          document.querySelector('#area-user progress').value = progress_value;
+          document.querySelector('#area-user .progress-bar').style.width = progress_value + '%';
         }
       } }
     ).catch (err => {
@@ -150,8 +149,6 @@ const reset = () => {
 const showCropper = () => {
   setCropper();
   document.querySelector('#area-upload').style.display = 'none';
-  // document.querySelector('#area-camera').style.display = 'none';
-  // document.querySelector('#area-camera').classList.add('d-none');
 }
 
 // camera
@@ -196,6 +193,23 @@ const takePicture = () => {
 
   document.querySelector('#uploaded').src = canvas.toDataURL();
   showCropper();
+}
+
+const changeResultType = () => {
+  document.querySelector('#area-user .progress-bar').style.width = '0%';
+
+  const type = document.querySelector('#area-user select').value;
+  switch (type) {
+    case 'default':
+      setDefault();
+      break;
+    case 'grayscale':
+      setGrayscale();
+      break;
+    case 'otsu':
+      setThresholding();
+      break;
+  }
 }
 
 var Module = {
