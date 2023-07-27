@@ -163,15 +163,15 @@ const setCamera = () => {
   document.querySelector('#area-camera').classList.remove('d-none');
   document.querySelector('#area-upload').classList.add('d-none');
 
-  // navigator.mediaDevices
-  // .getUserMedia({ video: true, audio: false })
-  // .then((stream) => {
-  //   videoElement.srcObject = stream;
-  //   videoElement.play();
-  // })
-  // .catch((err) => {
-  //   console.error(err);
-  // });
+  navigator.mediaDevices
+  .getUserMedia({ video: true, audio: false })
+  .then((stream) => {
+    videoElement.srcObject = stream;
+    videoElement.play();
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 }
 
 const setInput = () => {
