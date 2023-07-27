@@ -79,12 +79,14 @@ const detectText = (type, dataUrl) => {
 }
 
 const excelDownloadFn = () => {
+  const type = document.querySelector('#area-user select').value;
+
   try {
     const workbook = new ExcelJS.Workbook();
     const sheet = workbook.addWorksheet('Sheet1');
 
     sheet.columns = [
-      {header: 'Data', key: 'data'},
+      {header: type, key: 'data'},
     ]
 
     // detectedData = [ { data: 'detected line' } ]
@@ -200,13 +202,13 @@ const changeResultType = () => {
 
   const type = document.querySelector('#area-user select').value;
   switch (type) {
-    case 'default':
+    case 'Default':
       setDefault();
       break;
-    case 'grayscale':
+    case 'Grayscale':
       setGrayscale();
       break;
-    case 'otsu':
+    case 'OTSU':
       setThresholding();
       break;
   }
