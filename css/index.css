@@ -60,3 +60,6 @@ body {
   height: 300px;
 }
 
+#github {
+  border-color: transparent;
+}

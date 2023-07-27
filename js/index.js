@@ -214,6 +214,10 @@ const changeResultType = () => {
   }
 }
 
+const turnKor = () => {
+  alert('준비중입니다.');
+}
+
 var Module = {
   // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
   onRuntimeInitialized() {

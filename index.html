@@ -14,10 +14,77 @@
 <body>
   <div class="container mb-3">    
 
-    <div class="header mb-3">
+    <!-- <div class="header mb-3">
       <h2>OCR Helper - BillScanner</h2>
       <a href="https://github.com/cchoseonghun/BillScanner">Github</a>
-    </div>
+    </div> -->
+
+    <nav class="navbar navbar-expand-lg">
+      <a class="navbar-brand" href="https://cchoseonghun.github.io/BillScanner">OCR Helper - BillScanner</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <div class="me-auto"></div>
+        <div class="d-flex">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Language
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><button class="dropdown-item" href="#">English</button></li>
+                <li><button class="dropdown-item" onclick="turnKor()">한국어</button></li>
+              </ul>
+            </li>
+          </ul>
+          <button id="github" class="btn btn-outline-dark" onclick="window.open('https://github.com/cchoseonghun/BillScanner')">Github</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- <nav class="navbar navbar-expand-lg">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navDropdown" aria-controls="navDropdown" aria-expanded="false">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <button class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav> -->
+
+    <!-- <nav class="navbar">
+      <div class="container-fluid">
+        <a class="navbar-brand">OCR Helper - BillScanner</a>
+        <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <button class="btn btn-dark dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav> -->
 
     <div class="content">
 
